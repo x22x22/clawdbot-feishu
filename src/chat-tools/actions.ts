@@ -1,8 +1,6 @@
 import { runChatApiCall, type ChatClient } from "./common.js";
 import type { FeishuChatParams } from "./schemas.js";
-
-type UserIdType = "open_id" | "user_id" | "union_id";
-type MemberIdType = "open_id" | "user_id" | "union_id" | "app_id";
+import type { MemberIdType, UserIdType } from "./constants.js";
 
 function omitUndefined<T extends Record<string, unknown>>(obj: T): T {
   return Object.fromEntries(Object.entries(obj).filter(([, value]) => value !== undefined)) as T;
@@ -60,7 +58,6 @@ async function addChatMembers(
   );
 
   return {
-    success: true,
     chat_id: params.chat_id,
     invalid_id_list: res.data?.invalid_id_list ?? [],
     not_existed_id_list: res.data?.not_existed_id_list ?? [],

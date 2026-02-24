@@ -109,7 +109,6 @@ test("runChatAction add_members calls chatMembers.create and normalizes lists", 
   });
 
   assert.deepEqual(result, {
-    success: true,
     chat_id: "oc_group",
     invalid_id_list: ["bad_1"],
     not_existed_id_list: ["missing_1"],

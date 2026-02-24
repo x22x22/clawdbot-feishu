@@ -1,15 +1,7 @@
 import { Type, type Static } from "@sinclair/typebox";
+import { MemberIdTypeSchema, UserIdTypeSchema } from "./constants.js";
 
 const GroupMessageType = Type.Union([Type.Literal("chat"), Type.Literal("thread")]);
-
-const UserIdType = Type.Union([Type.Literal("open_id"), Type.Literal("user_id"), Type.Literal("union_id")]);
-
-const MemberIdType = Type.Union([
-  Type.Literal("open_id"),
-  Type.Literal("user_id"),
-  Type.Literal("union_id"),
-  Type.Literal("app_id"),
-]);
 
 export const FeishuChatSchema = Type.Union([
   Type.Object({
@@ -17,7 +9,7 @@ export const FeishuChatSchema = Type.Union([
     name: Type.String({ description: "Group name" }),
     description: Type.Optional(Type.String({ description: "Group description" })),
     owner_id: Type.Optional(Type.String({ description: "Owner user ID" })),
-    user_id_type: Type.Optional(UserIdType),
+    user_id_type: Type.Optional(UserIdTypeSchema),
     user_id_list: Type.Optional(Type.Array(Type.String(), { description: "Initial user IDs to add when creating the group" })),
     bot_id_list: Type.Optional(Type.Array(Type.String(), { description: "Initial bot app IDs to add when creating the group" })),
     set_bot_manager: Type.Optional(Type.Boolean({ description: "Whether to set the calling bot as group manager" })),
@@ -31,8 +23,10 @@ export const FeishuChatSchema = Type.Union([
       description: "Member IDs to add. Use app_id when adding bots.",
       minItems: 1,
     }),
-    member_id_type: Type.Optional(MemberIdType),
-    succeed_type: Type.Optional(Type.Number({ description: "Success mode from Feishu API (optional, usually omit)" })),
+    member_id_type: Type.Optional(MemberIdTypeSchema),
+    succeed_type: Type.Optional(
+      Type.Number({ description: "Success mode from Feishu API (optional, usually omit)" }),
+    ),
   }),
   Type.Object({
     action: Type.Literal("group_chat_is_in_chat"),
